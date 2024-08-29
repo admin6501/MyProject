@@ -30,15 +30,15 @@ services:
   mtproxy:
     image: telegrammessenger/proxy:latest
     ports:
-      - "\${PORT}:\${PORT}/tcp"
+      - "${PORT}:${PORT}/tcp"
     environment:
-      - SECRET=\${SECRET}
-      - PORT=\${PORT}
+      - SECRET=${SECRET}
+      - PORT=${PORT}
 EOF
 
     # Start the proxy
     sudo docker-compose up -d
-    echo "Proxy created and running on port \${PORT}."
+    echo "Proxy created and running on port ${PORT}."
 }
 
 # Function to delete the proxy
