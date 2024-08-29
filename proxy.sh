@@ -56,7 +56,7 @@ while true; do
     echo "4. Exit"
     read -p "Choose an option: " OPTION
 
-    case \$OPTION in
+    case $OPTION in
         1) install_packages ;;
         2) create_proxy ;;
         3) delete_proxy ;;
