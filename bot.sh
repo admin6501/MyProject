@@ -18,6 +18,22 @@ check_and_install_jq() {
     fi
 }
 
+# Function to create directory and file for webhook information
+create_directory_and_file() {
+    DIRECTORY="webhook_info"
+    FILE="$DIRECTORY/webhook_data.txt"
+
+    if [ ! -d "$DIRECTORY" ]; then
+        mkdir "$DIRECTORY"
+        echo "Directory $DIRECTORY created."
+    fi
+
+    if [ ! -f "$FILE" ]; then
+        touch "$FILE"
+        echo "File $FILE created."
+    fi
+}
+
 # Function to display the menu
 show_menu() {
     echo "Please choose an option:"
@@ -44,6 +60,12 @@ install_bot() {
     ADMIN_PANEL_TEXT="Admin Panel"
     MANAGE_BOT_TEXT="Manage Bot"
     WEBHOOK_URL="https://$DOMAIN/webhook"
+
+    # Save webhook information to file
+    echo "TOKEN=$TOKEN" > "$FILE"
+    echo "ADMIN_ID=$ADMIN_ID" >> "$FILE"
+    echo "DOMAIN=$DOMAIN" >> "$FILE"
+    echo "WEBHOOK_URL=$WEBHOOK_URL" >> "$FILE"
 
     # Set webhook
     set_webhook() {
@@ -144,6 +166,9 @@ remove_bot() {
 
 # Check and install jq if not installed
 check_and_install_jq
+
+# Create directory and file for webhook information
+create_directory_and_file
 
 # Display the menu
 show_menu
