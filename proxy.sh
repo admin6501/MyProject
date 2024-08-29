@@ -39,6 +39,7 @@ EOF
     # Start the proxy
     sudo docker-compose up -d
     echo "Proxy created and running on port ${PORT}."
+    echo "Proxy code: tg://proxy?server=$(hostname)&port=${PORT}&secret=${SECRET}"
 }
 
 # Function to delete the proxy
@@ -48,19 +49,26 @@ delete_proxy() {
     echo "Proxy deleted."
 }
 
+# Function to list proxies
+list_proxies() {
+    sudo docker ps --filter "ancestor=telegrammessenger/proxy:latest" --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}"
+}
+
 # Main menu
 while true; do
     echo "1. Install necessary packages"
     echo "2. Create proxy"
     echo "3. Delete proxy"
-    echo "4. Exit"
+    echo "4. List proxies"
+    echo "5. Exit"
     read -p "Choose an option: " OPTION
 
     case $OPTION in
         1) install_packages ;;
         2) create_proxy ;;
         3) delete_proxy ;;
-        4) exit ;;
+        4) list_proxies ;;
+        5) exit ;;
         *) echo "Invalid option. Please try again." ;;
     esac
 done
