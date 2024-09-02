@@ -3,7 +3,9 @@
 # Function to block speed test sites
 block_speed_test_sites() {
     for site in "${speed_test_sites[@]}"; do
+        echo "Blocking $site"
         echo "127.0.0.1 $site" | sudo tee -a /etc/hosts
+        echo "::1 $site" | sudo tee -a /etc/hosts
     done
     echo "Speed test sites successfully blocked!"
 }
@@ -11,6 +13,7 @@ block_speed_test_sites() {
 # Function to unblock speed test sites
 unblock_speed_test_sites() {
     for site in "${speed_test_sites[@]}"; do
+        echo "Unblocking $site"
         sudo sed -i "/$site/d" /etc/hosts
     done
     echo "Speed test sites successfully unblocked!"
