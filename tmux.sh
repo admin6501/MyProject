@@ -1,25 +1,25 @@
 #!/bin/bash
 
-# لیست تمامی جلسات tmux
+# List all tmux sessions
 sessions=$(tmux list-sessions -F "#S")
 
-# نمایش لیست جلسات با شماره‌گذاری
-echo "لیست جلسات tmux:"
+# Display the list of sessions with numbering
+echo "List of tmux sessions:"
 i=1
 for session in $sessions; do
     echo "$i) $session"
     i=$((i + 1))
 done
 
-# درخواست شماره جلسه برای حذف
-read -p "شماره جلسه‌ای که می‌خواهید حذف کنید را وارد کنید: " session_number
+# Request the session number to delete
+read -p "Enter the session number you want to delete: " session_number
 
-# پیدا کردن نام جلسه بر اساس شماره وارد شده
+# Find the session name based on the entered number
 i=1
 for session in $sessions; do
     if [ $i -eq $session_number ]; then
         tmux kill-session -t "$session"
-        echo "جلسه $session حذف شد."
+        echo "Session $session has been deleted."
         break
     fi
     i=$((i + 1))
