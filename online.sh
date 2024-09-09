@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# دریافت اطلاعات از کاربر
-read -p "لطفاً API ID خود را وارد کنید: " API_ID
-read -p "لطفاً API Hash خود را وارد کنید: " API_HASH
-read -p "لطفاً شماره تلفن خود را وارد کنید: " PHONE_NUMBER
-read -p "لطفاً نام کاربری کانال را وارد کنید: " CHANNEL_USERNAME
-read -p "لطفاً پیام مورد نظر خود را وارد کنید: " MESSAGE
+# Get user information
+read -p "Please enter your API ID: " API_ID
+read -p "Please enter your API Hash: " API_HASH
+read -p "Please enter your phone number: " PHONE_NUMBER
+read -p "Please enter the channel username: " CHANNEL_USERNAME
+read -p "Please enter your message: " MESSAGE
 
-# ایجاد اسکریپت پایتون
+# Create Python script
 cat << EOF > telegram_script.py
 from telethon import TelegramClient, events
 import asyncio
@@ -40,5 +40,5 @@ with client:
     client.loop.run_until_complete(main())
 EOF
 
-# اجرای اسکریپت پایتون
+# Run Python script
 python3 telegram_script.py
