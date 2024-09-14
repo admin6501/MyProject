@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# مسیر فایل لاگ دایرکت ادمین که ایجاد حساب‌های جدید را ثبت می‌کند
-LOG_FILE="/var/log/directadmin/errortaskq.log"
+# تابع برای پیدا کردن فایل لاگ دایرکت ادمین
+find_log_file() {
+    local log_dir="/var/log/directadmin"
+    local log_file=$(find $log_dir -type f -name "*.log" | grep "errortaskq.log")
+    echo $log_file
+}
+
+# پیدا کردن فایل لاگ
+LOG_FILE=$(find_log_file)
 
 # ایمیل ادمین
 ADMIN_EMAIL="user@amoozeshpc65.ir"
