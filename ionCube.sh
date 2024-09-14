@@ -17,6 +17,7 @@ tar -zxvf /tmp/ioncube_loaders.tar.gz -C $IONCUBE_DIR
 
 # انتقال فایل‌ها به دایرکتوری مناسب
 echo "انتقال فایل‌ها..."
+mkdir -p $(php -i | grep extension_dir | awk '{print $3}')
 cp $IONCUBE_DIR/ioncube/ioncube_loader_lin_${PHP_VERSION}.so $(php -i | grep extension_dir | awk '{print $3}')
 
 # پیکربندی PHP
