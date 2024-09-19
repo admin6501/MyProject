@@ -25,12 +25,13 @@ async def main():
     me = await client.get_me()
     print(f'Logged in as {me.username} ({me.id})')
 
-    @client.on(events.UserUpdate)
+    @client.on(events.NewMessage(incoming=True))
     async def handler(event):
-        if event.online:
-            print(f'{event.user_id} is online')
-        else:
-            print(f'{event.user_id} is offline')
+        if event.is_private:  # Check if the message is from a private chat
+            sender = await event.get_sender()
+            if not sender.bot:  # Check if the sender is not a bot
+                await event.respond('سلام، در اسرع وقت پاسخگوی شما خواهم بود.')
+                print(f'Responded to {sender.id}')
 
     while True:
         await client.send_message(channel_username, message)
