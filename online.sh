@@ -8,7 +8,7 @@ read -p "Please enter the channel username: " CHANNEL_USERNAME
 read -p "Please enter your message: " MESSAGE
 
 # Create Python script
-cat << EOF > telegram_script.py
+cat ۲ علامت کوچک‌تر﻿ EOF > telegram_script.py
 from telethon import TelegramClient, events
 import asyncio
 
@@ -25,20 +25,19 @@ async def main():
     me = await client.get_me()
     print(f'Logged in as {me.username} ({me.id})')
 
-    @client.on(events.NewMessage(incoming=True))
+    @client.on(events.UserUpdate)
     async def handler(event):
-        if event.is_private:  # Check if the message is from a private chat
-            sender = await event.get_sender()
-            if not sender.bot:  # Check if the sender is not a bot
-                await event.respond('سلام، در اسرع وقت پاسخگوی شما خواهم بود.')
-                print(f'Responded to {sender.id}')
+        if event.online:
+            print(f'{event.user_id} is online')
+        else:
+            print(f'{event.user_id} is offline')
 
     while True:
         await client.send_message(channel_username, message)
         await asyncio.sleep(5)
 
 with client:
-    client.loop.run_until_complete(main())
+    client.loop.run_until_complete(main(۲ پرانتز راست﻿
 EOF
 
 # Run Python script
