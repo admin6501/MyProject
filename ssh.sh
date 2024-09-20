@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# مسیر فایل authorized_keys
+# Path to the authorized_keys file
 AUTHORIZED_KEYS_FILE="/root/.ssh/authorized_keys"
 
-# حذف کلیدهای SSH از فایل authorized_keys
+# Remove SSH keys from the authorized_keys file
 if [ -f "$AUTHORIZED_KEYS_FILE" ]; then
     > "$AUTHORIZED_KEYS_FILE"
-    echo "کلیدهای SSH از فایل $AUTHORIZED_KEYS_FILE حذف شدند."
+    echo "SSH keys have been removed from $AUTHORIZED_KEYS_FILE."
 else
-    echo "فایل $AUTHORIZED_KEYS_FILE وجود ندارد."
+    echo "$AUTHORIZED_KEYS_FILE does not exist."
 fi
 
-# فعال کردن ورود با پسورد برای کاربر روت
+# Enable password login for the root user
 SSHD_CONFIG_FILE="/etc/ssh/sshd_config"
 
 if grep -q "^PermitRootLogin" "$SSHD_CONFIG_FILE"; then
@@ -26,7 +26,16 @@ else
     echo "PasswordAuthentication yes" >> "$SSHD_CONFIG_FILE"
 fi
 
-# راه‌اندازی مجدد سرویس SSH
+# Restart the SSH service
 systemctl restart sshd
 
-echo "ورود با پسورد برای کاربر روت فعال شد."
+echo "Password login for the root user has been enabled."
+
+# Prompt for a new password for the root user
+echo "Please enter a new password for the root user:"
+read -s new_password
+
+# Change the root user's password
+echo "root:$new_password" | chpasswd
+
+echo "The root user's password has been changed."
