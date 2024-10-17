@@ -40,7 +40,7 @@ phone_number = '$phone_number'
 admin_id = '$admin_id'
 
 # Create the Telegram client with user-supplied information
-client = TelegramClient('session_name', int(api_id), api_hash)
+client = TelegramClient('khalil', int(api_id), api_hash)
 
 # Variable to enable or disable auto-reply
 auto_reply_enabled = False
