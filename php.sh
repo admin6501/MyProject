@@ -2,29 +2,21 @@
 
 # تابع برای بررسی و نصب پیش‌نیازها
 function check_and_install_prerequisites() {
-    # بررسی نصب بودن Composer
+    # بررسی و نصب PHP
+    if ! command -v php &> /dev/null; then
+        echo "PHP not found. Installing PHP..."
+        sudo apt update
+        sudo apt install -y php
+    else
+        echo "PHP is already installed."
+    fi
+
+    # بررسی و نصب Composer
     if ! command -v composer &> /dev/null; then
         echo "Composer not found. Installing Composer..."
-        EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        ACTUAL_SIGNATURE="$(php -r "echo hash_file('SHA384', 'composer-setup.php');")"
-
-        if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; then
-            >&2 echo 'ERROR: Invalid installer signature'
-            rm composer-setup.php
-            exit 1
-        fi
-
-        php composer-setup.php --quiet
-        RESULT=$?
-        rm composer-setup.php
-        if [ $RESULT -ne 0 ]; then
-            echo "Composer installation failed."
-            exit 1
-        fi
-
-        mv composer.phar /usr/local/bin/composer
-        echo "Composer installed successfully."
+        sudo apt install -y curl
+        curl -sS https://getcomposer.org/installer | php
+        sudo mv composer.phar /usr/local/bin/composer
     else
         echo "Composer is already installed."
     fi
