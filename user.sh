@@ -39,7 +39,11 @@ add_user_to_sudo() {
 # Function to remove a user from the sudo group
 remove_user_from_sudo() {
     read -p "Enter the username you want to remove from the sudo group: " username
-    sudo deluser $username sudo
+    
+    # Remove user from sudo group in /etc/group
+    sudo sed -i "/^sudo/s/,$username//" /etc/group
+    
+    # Verify if the user has been removed
     sudo getent group sudo | grep $username && echo "$username is still in sudo group" || echo "$username removed from sudo group"
 }
 
