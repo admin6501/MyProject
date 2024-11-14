@@ -9,7 +9,7 @@ add_user() {
 # Function to delete a user
 delete_user() {
     read -p "Enter the username you want to delete: " username
-    sudo deluser --remove-home $username
+    sudo userdel -r $username
 }
 
 # Function to add a user to the sudo group
