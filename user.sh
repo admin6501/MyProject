@@ -1,64 +1,67 @@
 #!/bin/bash
 
-show_menu() {
-    echo "Please select an option:"
-    echo "1) Create a new user"
-    echo "2) Delete a user"
-    echo "3) Grant sudo access to a user"
-    echo "4) Remove sudo access from a user"
-    echo "5) Exit"
+# Function to add a user
+add_user() {
+    read -p "Enter the new username: " username
+    sudo adduser $username
 }
 
-create_user() {
-    read -p "Enter the new username: " username
-    read -sp "Enter the user's password: " password
-    echo
-    sudo adduser --gecos "" "$username" --disabled-password
-    echo "$username:$password" | sudo chpasswd
-    echo "User $username has been created successfully."
-}
-
+# Function to delete a user
 delete_user() {
-    read -p "Enter the username you want to delete: " username
-    sudo deluser "$username"
-    echo "User $username has been deleted successfully."
+    read -p "Enter the username you want to delete: " username
+    sudo deluser --remove-home $username
 }
 
-grant_sudo() {
-    read -p "Enter the username you want to grant sudo access to: " username
-    sudo usermod -aG sudo "$username"
-    echo "Sudo access has been granted to user $username."
+# Function to add a user to the root group
+add_user_to_root() {
+    read -p "Enter the username you want to add to the root group: " username
+    sudo usermod -aG root $username
 }
 
-remove_sudo() {
-    read -p "Enter the username you want to remove sudo access from: " username
-    sudo deluser "$username" sudo
-    echo "Sudo access has been removed from user $username."
+# Function to remove a user from the root group
+remove_user_from_root() {
+    read -p "Enter the username you want to remove from the root group: " username
+    sudo gpasswd -d $username root
 }
 
+# Function to change a user's password
+change_user_password() {
+    read -p "Enter the username whose password you want to change: " username
+    sudo passwd $username
+}
+
+# Main menu
 while true; do
-    show_menu
-    read -p "Your choice: " choice
+    echo "Please select an option:"
+    echo "1. Add User"
+    echo "2. Delete User"
+    echo "3. Add User to Root Group"
+    echo "4. Remove User from Root Group"
+    echo "5. Change User Password"
+    echo "6. Exit"
+    read -p "Your choice: " choice
 
-    case $choice in
-        1)
-            create_user
-            ;;
-        2)
-            delete_user
-            ;;
-        3)
-            grant_sudo
-            ;;
-        4)
-            remove_sudo
-            ;;
-        5)
-            echo "Exiting..."
-            exit 0
-            ;;
-        *)
-            echo "Invalid option. Please try again."
-            ;;
-    esac
+    case $choice in
+        1)
+            add_user
+            ;;
+        2)
+            delete_user
+            ;;
+        3)
+            add_user_to_root
+            ;;
+        4)
+            remove_user_from_root
+            ;;
+        5)
+            change_user_password
+            ;;
+        6)
+            exit 0
+            ;;
+        *)
+            echo "Invalid selection. Please try again."
+            ;;
+    esac
 done
