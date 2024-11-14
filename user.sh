@@ -39,7 +39,7 @@ add_user_to_sudo() {
 # Function to remove a user from the sudo group
 remove_user_from_sudo() {
     read -p "Enter the username you want to remove from the sudo group: " username
-    sudo gpasswd -d $username sudo
+    sudo deluser $username sudo
 }
 
 # Function to change a user's password
