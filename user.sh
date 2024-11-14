@@ -40,6 +40,7 @@ add_user_to_sudo() {
 remove_user_from_sudo() {
     read -p "Enter the username you want to remove from the sudo group: " username
     sudo deluser $username sudo
+    sudo getent group sudo | grep $username && echo "$username is still in sudo group" || echo "$username removed from sudo group"
 }
 
 # Function to change a user's password
