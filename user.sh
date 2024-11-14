@@ -9,6 +9,7 @@ add_user() {
 # Function to delete a user
 delete_user() {
     read -p "Enter the username you want to delete: " username
+    sudo pkill -u $username  # Terminate all processes owned by the user
     sudo userdel -r $username
 }
 
