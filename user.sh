@@ -6,11 +6,28 @@ add_user() {
     sudo adduser $username
 }
 
+# Function to check if the user exists in system files
+check_user_existence() {
+    grep $username /etc/passwd
+    grep $username /etc/shadow
+    grep $username /etc/group
+}
+
 # Function to delete a user
 delete_user() {
     read -p "Enter the username you want to delete: " username
+
+    # Check if user exists before deletion
+    echo "Checking for user existence before deletion:"
+    check_user_existence
+
     sudo pkill -u $username  # Terminate all processes owned by the user
     sudo userdel -r $username
+    sudo find / -user $username -exec rm -rf {} \;  # Remove all files owned by the user
+
+    # Check if user exists after deletion
+    echo "Checking for user existence after deletion:"
+    check_user_existence
 }
 
 # Function to add a user to the sudo group
