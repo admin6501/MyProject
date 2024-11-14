@@ -12,16 +12,16 @@ delete_user() {
     sudo deluser --remove-home $username
 }
 
-# Function to add a user to the root group
-add_user_to_root() {
-    read -p "Enter the username you want to add to the root group: " username
-    sudo usermod -aG root $username
+# Function to add a user to the sudo group
+add_user_to_sudo() {
+    read -p "Enter the username you want to add to the sudo group: " username
+    sudo usermod -aG sudo $username
 }
 
-# Function to remove a user from the root group
-remove_user_from_root() {
-    read -p "Enter the username you want to remove from the root group: " username
-    sudo gpasswd -d $username root
+# Function to remove a user from the sudo group
+remove_user_from_sudo() {
+    read -p "Enter the username you want to remove from the sudo group: " username
+    sudo gpasswd -d $username sudo
 }
 
 # Function to change a user's password
@@ -35,8 +35,8 @@ while true; do
     echo "Please select an option:"
     echo "1. Add User"
     echo "2. Delete User"
-    echo "3. Add User to Root Group"
-    echo "4. Remove User from Root Group"
+    echo "3. Add User to Sudo Group"
+    echo "4. Remove User from Sudo Group"
     echo "5. Change User Password"
     echo "6. Exit"
     read -p "Your choice: " choice
@@ -49,10 +49,10 @@ while true; do
             delete_user
             ;;
         3)
-            add_user_to_root
+            add_user_to_sudo
             ;;
         4)
-            remove_user_from_root
+            remove_user_from_sudo
             ;;
         5)
             change_user_password
